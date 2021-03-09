@@ -7,9 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping(path="/book")
+@RequestMapping(path="/books")
 public class BookController {
 
 
@@ -28,7 +29,7 @@ public class BookController {
 
     @PutMapping
     public void updateBook(@RequestBody Book book,
-                           @RequestParam(value =  "id")Long id){
+                           @RequestParam(value =  "bookid")Long id){
         bookService.updateBookData(book,id);
 
     }
@@ -38,6 +39,23 @@ public class BookController {
 
        return bookService.getAllBooks();
     }
+
+    @GetMapping(path = "/bookById")
+    public Optional<Book> getBookById(@RequestParam(value =  "bookid")Long id){
+        return bookService.getBookById(id);
+    }
+
+    @GetMapping(path = "/bookByTitle")
+    public Optional<Book> getBookByTitle(@RequestParam(value = "booktitle") String title){
+        return bookService.getBookByTitle(title);
+    }
+
+    @DeleteMapping
+    public void deleteBookById(@RequestParam(value ="bookid") Long id){
+         bookService.deleteBookById(id);
+    }
+
+
 //
 //    @GetMapping("/authors/{firstName}")
 //    public List<Book> byAuthor(@PathVariable String firstName)
@@ -45,10 +63,10 @@ public class BookController {
 //        return bookRepository.findAllByAuthorFirstname(firstName);
 //    }
 
-    @GetMapping("/books")
-    public List<Book> retierevAllBooks(){
-        return bookService.getAllBook();
-    }
+//    @GetMapping("/")
+//    public List<Book> retierevAllBooks(){
+//        return bookService.getAllBook();
+//    }
 
 //    @GetMapping("/books/{id}")
 //    public Optional<Book> retierevBookById(@PathVariable Long id){

@@ -1,7 +1,6 @@
 package com.georgian.book.bookapidemo.service;
 
 
-import com.georgian.book.bookapidemo.model.Author;
 import com.georgian.book.bookapidemo.model.Book;
 import com.georgian.book.bookapidemo.response.BookResponse;
 import com.georgian.book.bookapidemo.respository.AuthorRepository;
@@ -9,7 +8,6 @@ import com.georgian.book.bookapidemo.respository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,6 +48,10 @@ public class BookService {
         if(bookRequest.getBookTitle() != null){
             book.setBookTitle(bookRequest.getBookTitle()); ;
         }
+
+        if(bookRequest.getBookPages() != null){
+            book.setBookPages(bookRequest.getBookPages());
+        }
         if(bookRequest.getAuthorId() != null){
             book.setAuthorId(bookRequest.getAuthorId()); ;
         }
@@ -66,5 +68,18 @@ public class BookService {
 
     public List<Book> getAllBook() {
         return bookRepository.findAll();
+    }
+
+    public Optional<Book> getBookById(Long id) {
+        return bookRepository.findById(id);
+    }
+
+    public Optional<Book> getBookByTitle(String title) {
+
+        return bookRepository.findByBookTitle(title);
+    }
+
+    public void deleteBookById(Long id) {
+        bookRepository.deleteById(id);
     }
 }
