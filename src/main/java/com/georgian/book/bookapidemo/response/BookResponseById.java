@@ -1,2 +1,5 @@
-package com.georgian.book.bookapidemo.response;public interface BookResponseById {
+package com.georgian.book.bookapidemo.response;
+public interface BookResponseById {
+
+
 }

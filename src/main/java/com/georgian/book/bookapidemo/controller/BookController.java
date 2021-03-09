@@ -4,8 +4,11 @@ import com.georgian.book.bookapidemo.model.Book;
 import com.georgian.book.bookapidemo.response.BookResponse;
 import com.georgian.book.bookapidemo.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,9 +25,14 @@ public class BookController {
     }
 
     @PostMapping
-    public void createBook(@RequestBody Book book){
+    public ResponseEntity<Object> createBook(@RequestBody Book book){
         bookService.addNewBook(book);
-
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("{/id}")
+                .buildAndExpand(book.getBookId())
+                .toUri();
+        return ResponseEntity.created(location).build();
     }
 
     @PutMapping
