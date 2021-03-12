@@ -4,6 +4,7 @@ import com.georgian.book.bookapidemo.model.Book;
 import com.georgian.book.bookapidemo.response.BookResponse;
 import com.georgian.book.bookapidemo.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -43,23 +44,31 @@ public class BookController {
     }
 
     @GetMapping()
-    public List<BookResponse> getAllBook(){
+    public List<Book> getAllBook(){
+        List<Book> list=bookService.getAllBook();
+        if(list.size()<=0){
+            return (List<Book>) ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return list;
 
-       return bookService.getAllBooks();
     }
 
-    @GetMapping(path = "/bookById")
-    public Optional<Book> getBookById(@RequestParam(value =  "bookid")Long id){
-        return bookService.getBookById(id);
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<Book> getBookById(@PathVariable Long id){
+        Book book = bookService.getBookById(id);
+        if(book == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.of(Optional.of(book));
     }
 
-    @GetMapping(path = "/bookByTitle")
-    public Optional<Book> getBookByTitle(@RequestParam(value = "booktitle") String title){
+    @GetMapping(path = "/books/{title}")
+    public Book getBookByTitle(@PathVariable(value = "title") String title){
         return bookService.getBookByTitle(title);
     }
 
-    @DeleteMapping
-    public void deleteBookById(@RequestParam(value ="bookid") Long id){
+    @DeleteMapping(path = "/{id}")
+    public void deleteBookById(@PathVariable(value ="id") Long id){
          bookService.deleteBookById(id);
     }
 

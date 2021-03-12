@@ -16,7 +16,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
 
     @Query(value =
-            "SELECT b.book_id AS book_id, b.book_title AS title, b.book_pages As book_pages" +
+            "SELECT b.book_id AS book_id, b.book_title AS title, b.book_pages As book_pages," +
+                    "b.author_id AS authorId" +
                     " ,a.first_name AS author_firstname, a.last_name As author_lastname " +
                     "FROM book b JOIN author a ON b.author_id = a.author_id;", nativeQuery = true)
     List<BookResponse> findAllBooks();

@@ -70,13 +70,14 @@ public class BookService {
         return bookRepository.findAll();
     }
 
-    public Optional<Book> getBookById(Long id) {
-        return bookRepository.findById(id);
+    public Book getBookById(Long id) {
+        Optional<Book> byId = bookRepository.findById(id);
+        return byId.get();
     }
 
-    public Optional<Book> getBookByTitle(String title) {
-
-        return bookRepository.findByBookTitle(title);
+    public Book getBookByTitle(String title) {
+        Optional<Book> byBookTitle = bookRepository.findByBookTitle(title);
+        return byBookTitle.get();
     }
 
     public void deleteBookById(Long id) {

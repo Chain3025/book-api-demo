@@ -15,10 +15,12 @@ public class Author {
 
 
 
+
     public Author() {
     }
 
-    public Author(String firstName, String lastName) {
+    public Author(Long authorId, String firstName, String lastName) {
+        this.authorId = authorId;
         this.firstName = firstName;
         this.lastName = lastName;
     }
